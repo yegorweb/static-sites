@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Повторение дат и событий</title>
+    <style>
+        body {
+            background-color: white;
+            text-align: center;
+            font-family: monospace;
+        }
+        .slide {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .visible {
+            opacity: 1;
+            transform: translate(-50%, -40%);
+        }
+        .slide h1 {
+            max-width: 60vw;
+            margin: 0 auto 20px auto;
+            transition: opacity 0.5s, transform 0.5s;
+            font-size: max(5vh, 5vw);
+            font-weight: 900;
+        }
+        .slide p {
+            max-width: 60vw;
+            margin: 0 auto 20px auto;
+            transition: opacity 0.5s, transform 0.5s;
+            font-size: max(3vh, 3vw);
+        }
+        .event {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .event.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .slide.show-event h1 {
+            transform: translateY(-10px);
+        }
+    </style>
+</head>
+<body>
+    <div id="slide" class="slide visible"><h1>Повторение дат и событий</h1><p id="event" class="event"></p></div>
+    
+    <script>
+        const slides = [
+            ["1914, 19 июля (1 августа)", "Объявление Германией войны России. Начало Первой мировой войны для России"],
+            ["1917, 27 февраля", "Начало Февральской революции. Образование Временного комитета Государственной думы и Петроградского Совета"],
+            ["1917, 2 марта", "Отречение Николая II от престола. Образование Временного правительства."],
+            ["1917, 25 октября", "Октябрьская революция. Захват власти большевиками."],
+            ["1917, 25-26 октября", "II Всероссийский съезд Советов. Принятие Декрета о мире и Декрета о земле."],
+            ["1917-1924", "Правление В.И. Ленина."],
+            ["1918, 5-6 января", "Разгон Учредительного собрания большевиками."],
+            ["1918, 3 марта", "Подписание Брестского мирного договора между Советской Россией и Германией."],
+            ["1918-1920", "Гражданская война в России"],
+            ["1918", "Первая Конституция РСФСР"],
+            ["1921", "Начало НЭПа (Новая экономическая политика)."],
+            ["1922, 30 декабря", "Образование СССР."],
+            ["1924, 31 января", "Первая Конституция СССР"],
+            ["1924-1953", "Правление И.В. Сталина"],
+            ["1925", "XIV съезд ВКП(б). Провозглашение курса на индустриализацию."],
+            ["1928-1932; 1933-1937", "Первая и вторая пятилетки в СССР."],
+            ["1929", "Начало сплошной коллективизации в СССР."],
+            ["1936", "Новая Конституция СССР"],
+            ["1938, август", "Бои у озера Хасан между СССР и Японией."],
+            ["1939, май", "Бои на Халхин-Голе (СССР против Японии)."],
+            ["1939, 23 августа", "Подписание договора о ненападении между СССР и Германией"],
+            ["1939, ноябрь-март 1940", "Советско-финляндская (Зимняя) война."],
+            ["1940", "Включение Латвии, Литвы и Эстонии в состав СССР."],
+            ["1941, 22 июня", "Начало Великой Отечественной войны"],
+            ["1941, 22 июня - 23 июля", "Оборона Брестской крепости"],
+            ["1941, 10 июля - 10 сентября 1941", "Оборона Смоленска"],
+            ["1941, 5-6 декабря", "Контрнаступление советских войск под Москвой."],
+            ["1941, 8 сентября - 1943", "Блокада Ленинграда."],
+            ["1942, 28 июля", "Приказ №227 «Ни шагу назад!»"],
+            ["1942, 17 июля - 1943, 2 февраля", "Сталинградская битва"],
+            ["1943, 5 июля - 5 августа", "Курская битва"],
+            ["1943 28 ноября - 1 декабря", "Тегеранская конференция"],
+            ["1944", "«Десять сталинских ударов»"],
+            ["1944, 6 июня", "Второй фронт в Европе (Нормандия) Северная Франция"],
+            ["1945, 4-11 февраля", "Крымская (Ялтинская) конференция"],
+            ["16 апреля - 2 мая 1945", "Битва за Берлин"],
+            ["1945, 17 июля- 2 август", "Потсдамская (Берлинская) конференция"],
+            ["1945, 8 августа - 2 сентбря", "Война СССР с Японией. Окончание Второй мировой войны"],
+            ["1946", "Начало «холодной войны»"],
+            ["1949", "Создание НАТО."],
+            ["Конец", ""]
+        ];
+
+        let index = -1;
+        let showEvent = false;
+        const slideDiv = document.getElementById('slide');
+        let eventDiv = document.getElementById('event');
+
+        function nextSlide() {
+            if (!showEvent && index >= 0) {
+                eventDiv.textContent = slides[index][1];
+                eventDiv.classList.add('visible');
+                slideDiv.classList.add('show-event');
+                showEvent = true;
+                return;
+            }
+            index++;
+            if (index >= slides.length) return;
+            showEvent = false;
+            eventDiv.classList.remove('visible');
+            slideDiv.classList.remove('visible', 'show-event');
+            setTimeout(() => {
+                slideDiv.innerHTML = `<h1>${slides[index][0]}</h1><p id='event' class='event'></p>`;
+                eventDiv = document.getElementById('event');
+                slideDiv.classList.add('visible');
+            }, 500);
+        }
+
+        document.addEventListener('click', nextSlide);
+        document.addEventListener('keydown', nextSlide);
+    </script>
+</body>
+</html>

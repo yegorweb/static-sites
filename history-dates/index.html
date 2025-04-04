@@ -48,11 +48,17 @@
         .slide.show-event h1 {
             transform: translateY(-10px);
         }
+        .qr-code {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: min(15vw, 15vh);
+        }
     </style>
 </head>
 <body>
     <div id="slide" class="slide visible"><h1>Повторение дат и событий</h1><p id="event" class="event"></p></div>
-    
+    <image src="./qr.svg" class="qr-code" />
     <script>
         const slides = [
             ["1914, 19 июля (1 августа)", "Объявление Германией войны России. Начало Первой мировой войны для России"],
